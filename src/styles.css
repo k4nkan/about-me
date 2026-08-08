@@ -1,0 +1,38 @@
+:root {
+  color: #1f2428;
+  background: #edf1f3;
+  font-family:
+    Inter, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo,
+    sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-width: 320px;
+  margin: 0;
+  overflow: hidden;
+}
+
+.scene-page {
+  position: relative;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #f3f8f8 0%, #dde8e9 100%);
+}
+
+#scene {
+  display: block;
+  width: 100vw;
+  height: 100vh;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+}
+
+#scene.is-dragging {
+  cursor: grabbing;
+}
