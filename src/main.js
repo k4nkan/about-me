@@ -1,14 +1,24 @@
 import * as THREE from "three";
 import { createBusStop, createGround, addLights } from "./scene/busStop.js";
-import { createDragState, getCameraBase, setupDragControls, updateCameraFromDrag } from "./scene/controls.js";
+import {
+  createPointerState,
+  getCameraBase,
+  setupPointerControls,
+  updateCameraFromPointer
+} from "./scene/controls.js";
 
 const canvas = document.querySelector("#scene");
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0xeef4f4);
-scene.fog = new THREE.Fog(0xeef4f4, 8, 15);
+scene.background = new THREE.Color(0xf8f8f6);
+scene.fog = new THREE.Fog(0xf8f8f6, 8, 15);
 
 const initialCameraBase = getCameraBase();
-const camera = new THREE.PerspectiveCamera(initialCameraBase.fov, window.innerWidth / window.innerHeight, 0.1, 100);
+const camera = new THREE.PerspectiveCamera(
+  initialCameraBase.fov,
+  window.innerWidth / window.innerHeight,
+  0.1,
+  100
+);
 camera.position.set(initialCameraBase.x, initialCameraBase.y, initialCameraBase.z);
 
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
@@ -20,16 +30,16 @@ renderer.outputColorSpace = THREE.SRGBColorSpace;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1.04;
 
-const dragState = createDragState(initialCameraBase);
+const pointerState = createPointerState(initialCameraBase);
 
 addLights(scene);
 createGround(scene);
 createBusStop(scene);
-setupDragControls(canvas, dragState);
+setupPointerControls(canvas, pointerState);
 
 function animate() {
   requestAnimationFrame(animate);
-  updateCameraFromDrag(camera, dragState);
+  updateCameraFromPointer(camera, pointerState);
   renderer.render(scene, camera);
 }
 

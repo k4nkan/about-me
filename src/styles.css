@@ -1,9 +1,7 @@
 :root {
   color: #1f2428;
-  background: #edf1f3;
-  font-family:
-    Inter, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo,
-    sans-serif;
+  background: #f8f8f6;
+  font-family: Inter, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
 }
@@ -21,18 +19,116 @@ body {
 .scene-page {
   position: relative;
   min-height: 100vh;
-  background: linear-gradient(180deg, #f3f8f8 0%, #dde8e9 100%);
+  background: #f8f8f6;
 }
 
 #scene {
   display: block;
   width: 100vw;
   height: 100vh;
-  cursor: grab;
+  cursor: default;
   touch-action: none;
   user-select: none;
 }
 
-#scene.is-dragging {
-  cursor: grabbing;
+.hero-copy {
+  position: fixed;
+  top: clamp(38px, 8vh, 88px);
+  left: clamp(24px, 3.8vw, 56px);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.hero-role {
+  margin: 0 0 8px;
+  color: #9b9b9b;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.hero-copy h1 {
+  margin: 0;
+  color: #050505;
+  font-size: clamp(44px, 4.1vw, 64px);
+  font-weight: 900;
+  line-height: 0.9;
+  letter-spacing: 0;
+}
+
+.hero-nav {
+  position: fixed;
+  top: clamp(42px, 8.4vh, 92px);
+  right: clamp(24px, 3vw, 54px);
+  z-index: 3;
+  display: grid;
+  gap: 13px;
+  justify-items: end;
+}
+
+.hero-nav a {
+  color: #8f8f8f;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.hero-nav a[aria-current="page"] {
+  color: #111;
+}
+
+.hero-meta {
+  position: fixed;
+  bottom: clamp(32px, 5.4vh, 58px);
+  left: clamp(24px, 3.8vw, 56px);
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(160px, 220px));
+  gap: 28px;
+  margin: 0;
+  pointer-events: none;
+}
+
+.hero-meta div {
+  border-top: 1px solid #dedede;
+  padding-top: 10px;
+}
+
+.hero-meta dt {
+  margin: 0 0 8px;
+  color: #9b9b9b;
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.hero-meta dd {
+  margin: 0;
+  color: #111;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+@media (max-width: 760px) {
+  .hero-copy {
+    top: 28px;
+    left: 22px;
+  }
+
+  .hero-copy h1 {
+    font-size: 42px;
+  }
+
+  .hero-nav {
+    top: auto;
+    right: 22px;
+    bottom: 28px;
+    gap: 10px;
+  }
+
+  .hero-meta {
+    display: none;
+  }
 }

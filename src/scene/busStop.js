@@ -364,7 +364,16 @@ function createFoot(parent, position) {
 
 function addRoundedBox(
   parent,
-  { size, radius, material, position = [0, 0, 0], rotation = [0, 0, 0], segments = 5, castShadow = false, receiveShadow = false }
+  {
+    size,
+    radius,
+    material,
+    position = [0, 0, 0],
+    rotation = [0, 0, 0],
+    segments = 5,
+    castShadow = false,
+    receiveShadow = false
+  }
 ) {
   const mesh = roundedBox(size[0], size[1], size[2], radius, material, segments);
   mesh.position.set(...position);
@@ -377,7 +386,15 @@ function addRoundedBox(
 
 function addCylinder(
   parent,
-  { radius, height, material, position = [0, 0, 0], rotation = [0, 0, 0], radialSegments = 24, castShadow = false }
+  {
+    radius,
+    height,
+    material,
+    position = [0, 0, 0],
+    rotation = [0, 0, 0],
+    radialSegments = 24,
+    castShadow = false
+  }
 ) {
   const mesh = cyl(radius, height, material, radialSegments);
   mesh.position.set(...position);
