@@ -1,0 +1,59 @@
+:root {
+  --page-background: #f8f8f6;
+  color: #1f2428;
+  background: var(--page-background);
+  font-family: Inter, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+h1 {
+  margin: 0;
+  color: #050505;
+  font-size: clamp(44px, 4.1vw, 64px);
+  font-weight: 900;
+  line-height: 0.9;
+  letter-spacing: 0;
+}
+
+a {
+  display: inline-block;
+  color: var(--link-color, inherit);
+  text-underline-offset: 5px;
+  border-radius: 2px;
+  box-shadow: 0 0 0 6px transparent;
+  transition:
+    color 0.6s ease,
+    background-color 0.6s ease,
+    box-shadow 0.6s ease;
+}
+
+@media (hover: hover) {
+  a:hover {
+    color: #174f65;
+    background-color: #cce5ec;
+    box-shadow: 0 0 0 6px #cce5ec;
+  }
+}
+
+a:focus-visible {
+  color: #256b86;
+  outline: 2px solid #256b86;
+  outline-offset: 5px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  a {
+    transition: none;
+  }
+}
+
+@media (max-width: 760px) {
+  h1 {
+    font-size: 42px;
+  }
+}
