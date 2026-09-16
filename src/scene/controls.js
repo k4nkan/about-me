@@ -3,12 +3,12 @@ import * as THREE from "three";
 const POINTER_AZIMUTH_RANGE = 0.16;
 const POINTER_HEIGHT_RANGE = 0.24;
 const CAMERA_EASING = 0.08;
-const CAMERA_TARGET = new THREE.Vector3(0, 1.34, 0);
+const CAMERA_TARGET = new THREE.Vector3(0, 1.0, 0);
 
 export function getCameraBase() {
-  return window.innerWidth < 720
-    ? { x: 2.8, y: 2.0, z: 7.0, fov: 52 }
-    : { x: 3.05, y: 2.0, z: 5.9, fov: 42 };
+  const compact =
+    window.innerWidth <= 760 || (window.innerWidth <= 950 && window.innerHeight <= 500);
+  return compact ? { x: 2.8, y: 2.0, z: 7.0, fov: 52 } : { x: 3.05, y: 2.0, z: 5.9, fov: 42 };
 }
 
 export function createPointerState(cameraBase) {
@@ -23,6 +23,7 @@ export function createPointerState(cameraBase) {
 
 export function setupPointerControls(canvas, pointerState) {
   canvas.addEventListener("pointermove", (event) => {
+    if (event.pointerType === "touch") return;
     pointerState.pointerX = (event.clientX / window.innerWidth - 0.5) * 2;
     pointerState.pointerY = (event.clientY / window.innerHeight - 0.5) * 2;
   });

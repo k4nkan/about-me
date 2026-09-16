@@ -1,7 +1,12 @@
 import * as THREE from "three";
-import { cyl, makeLabelPlane, roundedBox } from "./geometry.js";
+import { addCylinder, addRoundedBox, makeLabelPlane } from "./geometry.js";
 import { makeMat, mat, palette } from "./materials.js";
-import { makeAdTexture, makeTextTexture, makeTimetableTexture } from "./textures.js";
+import {
+  makeAdTexture,
+  makeStopSignTexture,
+  makeTextTexture,
+  makeTimetableTexture
+} from "./textures.js";
 
 const STOP_ROTATION_Y = -0.12;
 
@@ -35,6 +40,7 @@ const adWallConfig = {
 };
 
 const routePanelConfig = {
+  href: "./about.html",
   position: [-1.24, 1.6, -0.7],
   size: [1.66, 1.0, 0.07],
   radius: 0.04,
@@ -43,8 +49,8 @@ const routePanelConfig = {
   labelPosition: [0, 0.05, 0.048],
   texture: () =>
     makeTextTexture({
-      title: "03  KADO",
-      subtitle: "next  12:18",
+      title: "KANTA",
+      subtitle: "about me",
       width: 700,
       height: 440,
       bg: "#f7f4e8",
@@ -55,6 +61,7 @@ const routePanelConfig = {
 };
 
 const timetablePanelConfig = {
+  href: "./contact.html",
   position: [1.58, 1.4, -0.7],
   size: [0.88, 1.48, 0.07],
   radius: 0.04,
@@ -105,8 +112,9 @@ export function createBusStop(scene) {
   scene.add(stop);
 
   createShelterFrame(stop);
-  createAdWall(stop, -frame.postX);
-  createAdWall(stop, frame.postX);
+  const adTexture = makeAdTexture();
+  createAdWall(stop, -frame.postX, adTexture);
+  createAdWall(stop, frame.postX, adTexture);
   createHangingPanel(stop, routePanelConfig);
   createHangingPanel(stop, timetablePanelConfig);
   createBench(stop);
@@ -217,24 +225,12 @@ function createBusStopSign(parent) {
     });
   }
 
-  const signLabel = makeLabelPlane(
-    makeTextTexture({
-      title: "BUS STOP",
-      subtitle: "KADO LINE",
-      width: 900,
-      height: 220,
-      bg: "#2c92b8",
-      color: "#f7fbf6",
-      titleSize: 96,
-      subtitleSize: 32
-    }),
-    ...signConfig.labelSize
-  );
+  const signLabel = makeLabelPlane(makeStopSignTexture(), ...signConfig.labelSize);
   signLabel.position.set(...signConfig.labelPosition);
   parent.add(signLabel);
 }
 
-function createAdWall(parent, x) {
+function createAdWall(parent, x, texture) {
   const wallGroup = new THREE.Group();
   wallGroup.position.set(x, adWallConfig.y, 0);
   parent.add(wallGroup);
@@ -246,10 +242,10 @@ function createAdWall(parent, x) {
     castShadow: true
   });
 
-  createEmbeddedAd(wallGroup);
+  createEmbeddedAd(wallGroup, texture);
 }
 
-function createEmbeddedAd(parent) {
+function createEmbeddedAd(parent, texture) {
   const adGroup = new THREE.Group();
   parent.add(adGroup);
 
@@ -261,9 +257,10 @@ function createEmbeddedAd(parent) {
   });
 
   for (const side of [-1, 1]) {
-    const screen = makeLabelPlane(makeAdTexture(), ...adWallConfig.adScreenSize);
+    const screen = makeLabelPlane(texture, ...adWallConfig.adScreenSize);
     screen.rotation.y = side > 0 ? Math.PI / 2 : -Math.PI / 2;
     screen.position.set(0.049 * side, 0, 0);
+    screen.userData.href = "./projects.html";
     adGroup.add(screen);
   }
 
@@ -287,6 +284,7 @@ function createHangingPanel(parent, config) {
 
   const label = makeLabelPlane(config.texture(), ...config.labelSize);
   label.position.set(...config.labelPosition);
+  label.userData.href = config.href;
   panel.add(label);
 }
 
@@ -360,46 +358,4 @@ function createFoot(parent, position) {
     material: mat.darkMetal,
     castShadow: true
   });
-}
-
-function addRoundedBox(
-  parent,
-  {
-    size,
-    radius,
-    material,
-    position = [0, 0, 0],
-    rotation = [0, 0, 0],
-    segments = 5,
-    castShadow = false,
-    receiveShadow = false
-  }
-) {
-  const mesh = roundedBox(size[0], size[1], size[2], radius, material, segments);
-  mesh.position.set(...position);
-  mesh.rotation.set(...rotation);
-  mesh.castShadow = castShadow;
-  mesh.receiveShadow = receiveShadow;
-  parent.add(mesh);
-  return mesh;
-}
-
-function addCylinder(
-  parent,
-  {
-    radius,
-    height,
-    material,
-    position = [0, 0, 0],
-    rotation = [0, 0, 0],
-    radialSegments = 24,
-    castShadow = false
-  }
-) {
-  const mesh = cyl(radius, height, material, radialSegments);
-  mesh.position.set(...position);
-  mesh.rotation.set(...rotation);
-  mesh.castShadow = castShadow;
-  parent.add(mesh);
-  return mesh;
 }

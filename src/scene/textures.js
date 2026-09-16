@@ -1,5 +1,7 @@
 import * as THREE from "three";
 
+const ROUTE_LABEL = "50 / SODERINI - NERI";
+
 export function makeTextTexture({
   title,
   subtitle = "",
@@ -36,6 +38,19 @@ export function makeTextTexture({
   return makeCanvasTexture(canvasText);
 }
 
+export function makeStopSignTexture() {
+  return makeTextTexture({
+    title: "BUS STOP",
+    subtitle: ROUTE_LABEL,
+    width: 900,
+    height: 220,
+    bg: "#2c92b8",
+    color: "#f7fbf6",
+    titleSize: 96,
+    subtitleSize: 32
+  });
+}
+
 export function makeAdTexture() {
   const canvasAd = document.createElement("canvas");
   canvasAd.width = 512;
@@ -49,8 +64,7 @@ export function makeAdTexture() {
   ctx.fillRect(0, 0, canvasAd.width, canvasAd.height);
   ctx.fillStyle = "rgba(255,255,255,0.9)";
   ctx.font = "900 68px Inter, sans-serif";
-  ctx.fillText("NIGHT", 52, 120);
-  ctx.fillText("MARKET", 52, 194);
+  ctx.fillText("PROJECTS", 52, 120, canvasAd.width - 104);
   ctx.fillStyle = "#ff7d75";
   ctx.fillRect(52, 250, 240, 26);
   ctx.fillStyle = "#ffffff";
@@ -82,7 +96,7 @@ export function makeTimetableTexture() {
   ctx.fillRect(0, 0, canvasTable.width, 104);
   ctx.fillStyle = "#fffdf2";
   ctx.font = "900 48px Inter, sans-serif";
-  ctx.fillText("TIMETABLE", 34, 68);
+  ctx.fillText("CONTACT", 34, 68);
 
   const rows = ["07:12", "08:04", "09:40", "11:18", "13:05", "15:32", "17:46", "19:20"];
   ctx.fillStyle = "#27313a";
@@ -99,7 +113,7 @@ export function makeTimetableTexture() {
   ctx.fillRect(34, 686, 170, 28);
   ctx.fillStyle = "#27313a";
   ctx.font = "700 22px Inter, sans-serif";
-  ctx.fillText("KADO LINE", 224, 710);
+  ctx.fillText(ROUTE_LABEL, 224, 710, canvasTable.width - 224 - 34);
   return makeCanvasTexture(canvasTable);
 }
 

@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { setupSceneLinks } from "./scene/links.js";
 import { createBusStop, createGround, addLights } from "./scene/busStop.js";
 import {
   createPointerState,
@@ -23,7 +24,7 @@ camera.position.set(initialCameraBase.x, initialCameraBase.y, initialCameraBase.
 
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setSize(window.innerWidth, window.innerHeight, false);
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 renderer.outputColorSpace = THREE.SRGBColorSpace;
@@ -37,9 +38,13 @@ createGround(scene);
 createBusStop(scene);
 setupPointerControls(canvas, pointerState);
 
+const updateLinks = setupSceneLinks(canvas, scene, camera);
+const clock = new THREE.Clock();
+
 function animate() {
   requestAnimationFrame(animate);
   updateCameraFromPointer(camera, pointerState);
+  updateLinks(clock.getDelta());
   renderer.render(scene, camera);
 }
 
@@ -48,7 +53,7 @@ window.addEventListener("resize", () => {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.fov = cameraBase.fov;
   camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setSize(window.innerWidth, window.innerHeight, false);
 });
 
 animate();
