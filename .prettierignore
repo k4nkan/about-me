@@ -4,3 +4,4 @@ coverage/
 
 *.log
 preview*.png
+public/favicon.svg
